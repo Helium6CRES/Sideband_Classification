@@ -23,9 +23,13 @@ An example to demonstrate the usage of Sideband_Classification is as follows, wh
 
 ##
 Absolute Data Path: "D:\Sidebands\events.csv"
+
 Input frequency ranges for the detected fields [0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.25]
+
 Minimum Axial Frequencies in MHz (integers seperated by spaces): "51 80 93 99 102 106 105 109 109 110 110"
+
 Maximum Axial Frequencies in MHz (integers seperated by spaces): "67 98 117 122 125 128 129 129 131 131 131"
+
 Number of points per track to check: "5"
 ##
 
