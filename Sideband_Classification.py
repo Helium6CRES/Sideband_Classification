@@ -279,7 +279,7 @@ for k, field in by_field:
                         immediately_below.append(i)
                         is_below = True
 
-                    """Accompanied mainband check"""
+                    # Accompanied mainband check
                     if is_below and is_above:
                         axial_freq = main_axial_frequency(event, df.loc[immediately_above[0]], df.loc[immediately_below[0]])
                         for above in immediately_above:
