@@ -168,10 +168,6 @@ def side_axial_frequency(above_band, below_band):
 # event_count increments with every new event and records how many events have
 # been looped through for the sake of recording progress
 event_count = 0
-# beta_counter is constantly incrementing with each event so that there is
-# always a unique beta value to assign to a lone band. It will always have the
-# same value as event_count but is separate for the sake of readability
-beta_counter = 0
 # range_index records which axial frequency range to use for the given field
 range_index = -1
 
@@ -209,7 +205,6 @@ for k, field in by_field:
                 progress_counter += 1
 
             break_out_flag = False
-            beta_counter += 1
             beta = df.at[index, "Beta"]
 
             # Gives event a unique beta, if it doesn't already belong to a set of bands
