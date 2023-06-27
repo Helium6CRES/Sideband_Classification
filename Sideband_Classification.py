@@ -11,6 +11,7 @@ input CSV with additional columns for band type, beta number, and axial frequenc
 import pandas as pd
 import numpy as np
 import time
+import os
 
 # Data input
 filepath = input("Absolute Data Path: ")
@@ -302,7 +303,11 @@ toc = time.perf_counter()
 time_elapsed = toc - tic
 print("Time Elapsed:", time_elapsed // 60, "Minutes", time_elapsed % 60, "Seconds")
 
-path = "Data_with_sidebands.csv"
+suffix = "_with_sidebands"
+directory = os.path.dirname(filepath)
+filename, extension = os.path.splitext(os.path.basename(filepath))
+new_filename = f"{filename}{suffix}{extension}"
+path = os.path.join(directory, new_filename)
 df.to_csv(path)
 
 print()
