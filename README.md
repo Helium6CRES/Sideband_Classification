@@ -11,15 +11,16 @@ The Axial_Hist_Plot file takes the output CSV from Sideband_Classification and c
 
 To use the code, Sideband_Classification requires a path to the clustered data, and expected frequency ranges for each of the fields included in the data, as well as a a number of points to check for each track.
 
-1. Run the script 'Sideband_Classification
-2. Input absolute data path
-3. Input axial frequency minimums for each field
-4. Input axial frequency maximums for each field
+1. Run the script 'Sideband_Classification'
+2. Input absolute data path (no commas)
+3. Input axial frequency minimums for each field (MHz, separated by spaces)
+4. Input axial frequency maximums for each field (MHz, separated by spaces)
 5. Input a number of points to check for each track
 
 Note: Increasing the number of points to check will increase accuracy, but also runtime.
 
 An example to demonstrate the usage of Sideband_Classification is as follows, where the quotes are the user input:
+
 ##
 Absolute Data Path: "D:\Sidebands\events.csv"
 Input frequency ranges for the detected fields [0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.25]
@@ -27,6 +28,7 @@ Minimum Axial Frequencies in MHz (integers seperated by spaces): "51 80 93 99 10
 Maximum Axial Frequencies in MHz (integers seperated by spaces): "67 98 117 122 125 128 129 129 131 131 131"
 Number of points per track to check: "5"
 ##
+
 The file will then store a file under the name "Data_with_sidebands.csv" which represents the experimental data with further columns describing the band type (Top band, bottom band, mainband, lone band), the beta the band belongs to, and the axial frequency of the band.
 
 
@@ -34,10 +36,11 @@ The file will then store a file under the name "Data_with_sidebands.csv" which r
 Axial_Hist_Plot requires a filepath to the sideband-processed CSV
 To plot:
 
-1. Run Axial_Hist_Plot
+1. Run 'Axial_Hist_Plot'
 2. Input filepath of CSV output by Sideband_Classification when prompted
 
 Example where quotes represent user input:
+
 ##
 Input sideband-processed data path: "C:\Users\blake\Data_with_sidebands.csv"
 ##
