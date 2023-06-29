@@ -204,7 +204,6 @@ for k, field in by_field:
                 print(f"Progress: {round(progress_percent)}%")
                 progress_counter += 1
 
-            break_out_flag = False
             beta = df.at[index, "Beta"]
 
             # Gives event a unique beta, if it doesn't already belong to a set of bands
