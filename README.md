@@ -38,6 +38,7 @@ The code will then store a file in the same location as the input with the addit
 
 
 Axial_Hist_Plot requires a filepath to the sideband-processed CSV
+
 To plot:
 
 1. Run 'Axial_Hist_Plot'
