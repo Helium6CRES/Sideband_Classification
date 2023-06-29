@@ -33,7 +33,7 @@ Maximum Axial Frequencies in MHz (integers seperated by spaces): "67 98 117 122 
 Number of points per track to check: "5"
 ##
 
-The file will then store a file in the same location as the input with the addition of the suffix "_with_sidebands" appended, which represents the experimental data with further columns describing the band type (Top band, bottom band, mainband, lone band), the beta the band belongs to, and the axial frequency of the band.
+The code will then store a file in the same location as the input with the addition of the suffix "_with_sidebands" appended, which represents the experimental data with further columns describing the band type (Top band, bottom band, mainband, lone band), the beta the band belongs to, and the axial frequency of the band.
 
 
 
