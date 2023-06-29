@@ -1,4 +1,4 @@
-# sideband_classification
+# Sideband_Classification
 
 
 This code is intended to be used for the He-6 CRES experiment on experiment data that has already undergone clustering into individual tracks.
