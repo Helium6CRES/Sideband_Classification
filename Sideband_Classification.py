@@ -46,7 +46,7 @@ axial_frequencies = list(zip(fA_min, fA_max))
 # User input of number of points to check along each track
 points_per_event = int(input("Number of points per track to check: "))
 
-assemble_mainbands = input("Asemble phantom mainbands from pairs of sidebands that lack a mainband? (y/n)")
+assemble_mainbands = input("Asemble phantom mainbands from pairs of sidebands that lack a mainband? (y/n): ")
 if assemble_mainbands == "y":
     assemble_mainbands = True
 elif assemble_mainbands == "n":
@@ -344,8 +344,7 @@ if assemble_mainbands is True:
             assert len(beta_group) == 2
             phantom_mainband = create_mainband(beta_group)
             phantom_df = phantom_df.append(phantom_mainband, ignore_index=True)
-    df = df.append(phantom_dataframe, ignore_index=True)
-            
+    df = df.append(phantom_df, ignore_index=True)
 
 else:
     df.drop("Phantom_mainband")
