@@ -46,6 +46,7 @@ axial_frequencies = list(zip(fA_min, fA_max))
 # User input of number of points to check along each track
 points_per_event = int(input("Number of points per track to check: "))
 
+# User input on if to assemble phantom mainbands
 assemble_mainbands = input("Asemble phantom mainbands from pairs of sidebands that lack a mainband? (y/n): ")
 if assemble_mainbands == "y":
     assemble_mainbands = True
