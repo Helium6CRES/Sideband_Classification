@@ -175,31 +175,32 @@ def side_axial_frequency(above_band, below_band):
     axial_frequency = (freq_top - freq_bottom) / 2
     return abs(axial_frequency)
 
-def create_mainband(beta_group, dataframe):
+
+def create_mainband(beta_group):
     """
     Takes 2 detected sidebands (in the form of their beta group) that lack a mainband and creates a phantom
     mainband where one should be, starting at the earliest part of the
     first sideband and stretching to the llatest part of the second sideband,
     an axial frequency away from each.
-    """   
-    
+    """
+    beta_group = beta_group.sort_values(by="EventStartTime")
     first_mainband = beta_group.iloc[0]
-    second_sideband = beta_group.iloc[1]
-    
-    min_start_time = beta_group["EventStartTime"].min()
-    max_end_time = beta_group["EventEndTime"].max()
-    start_frequency = beta_group["EventStartFreq"].max() - first_mainband["Axial_frequency"]
-    end_frequency = beta_group["EventEndFreq"].max() - first_mainband["Axial_frequency"]
+    second_mainband = beta_group.iloc[-1]
 
-    beta_group = beta_group.append(first_mainband, ignore_index=True)
-    new_row_index = beta_group.index[-1]
-    beta_group.at[new_row_index, "Band_type"] = 3
-    beta_group.at[new_row_index, "EventStartTime"] = min_start_time
-    beta_group.at[new_row_index, "EventEndTime"] = max_end_time
-    beta_group.at[new_row_index, "EventStartFreq"] = start_frequency
-    beta_group.at[new_row_index, "EventEndFreq"] = end_frequency
-    beta_group.at[new_row_index, "EventSlope"] = (end_frequency - start_frequency) / (max_end_time - min_start_time)
-    return beta_group.iloc[new_row_index]
+    min_start_time = first_mainband["EventStartTime"]
+    max_end_time = second_mainband["EventEndTime"]
+    start_frequency = beta_group["EventStartFreq"].min() - first_mainband["Axial_Frequency"]
+    end_frequency = beta_group["EventEndFreq"].max() + second_mainband["Axial_Frequency"]
+
+    beta_group_df = pd.concat([beta_group, pd.DataFrame(first_mainband).transpose()], ignore_index=True)
+    new_row_index = beta_group_df.index[-1]
+    beta_group_df.at[new_row_index, "Band_type"] = 3
+    beta_group_df.at[new_row_index, "EventStartTime"] = min_start_time
+    beta_group_df.at[new_row_index, "EventEndTime"] = max_end_time
+    beta_group_df.at[new_row_index, "EventStartFreq"] = start_frequency
+    beta_group_df.at[new_row_index, "EventEndFreq"] = end_frequency
+    beta_group_df.at[new_row_index, "EventSlope"] = (end_frequency - start_frequency) / (max_end_time - min_start_time)
+    return beta_group_df.iloc[-1]
 
 # Various counters:
 # event_count increments with every new event and records how many events have
@@ -331,30 +332,13 @@ for k, field in by_field:
                             df.at[below, "Beta"] = beta
                             df.at[below, "Band_type"] = -1
                             df.at[below, "Axial_Frequency"] = axial_freq
-                            df.at[below, "Phantom_mainband"] = True
+                            df.at[below, "Phantom_mainband"] = False
                         df.at[index, "Band_type"] = 0
                         df.at[index, "Axial_Frequency"] = axial_freq
 
 
-if assemble_mainbands is True:
-    phantom_df = pd.Dataframe(columns=df.columns)
-    gdf = df.groupby("Beta")
-    for h, beta_group in gdf:
-        if True in beta_group['Phantom_mainband'].values():
-            assert len(beta_group) == 2
-            phantom_mainband = create_mainband(beta_group)
-            phantom_df = phantom_df.append(phantom_mainband, ignore_index=True)
-    df = df.append(phantom_df, ignore_index=True)
-
-else:
+if assemble_mainbands is False:
     df.drop("Phantom_mainband")
-
-
-toc = time.perf_counter()
-time_elapsed = toc - tic
-print("Time Elapsed:", time_elapsed // 60, "Minutes", time_elapsed % 60, "Seconds")
-
-df = df.sort_values(by="Beta")
 
 suffix = "_with_sidebands"
 directory = os.path.dirname(filepath)
@@ -363,9 +347,37 @@ new_filename = f"{filename}{suffix}{extension}"
 path = os.path.join(directory, new_filename)
 df.to_csv(path)
 
+if assemble_mainbands is True:
+    phantom_df = pd.DataFrame(columns=df.columns)
+    gdf = df[df["Phantom_mainband"] == True]
+    gdf = gdf.groupby("Beta")
+    print(len(gdf))
+    for beta_group_name, beta_group_data in gdf:
+        # print("Yes")
+        phantom_mainband = create_mainband(beta_group_data)
+        # print(phantom_mainband)
+        phantom_df = pd.concat([phantom_df, pd.DataFrame(phantom_mainband).transpose()], ignore_index=True)
+        continue
+
+    df = pd.concat([df, phantom_df], ignore_index=True)
+
+    suffix = "_with_phantoms"
+    directory = os.path.dirname(filepath)
+    filename, extension = os.path.splitext(os.path.basename(filepath))
+    new_filename = f"{filename}{suffix}{extension}"
+    path = os.path.join(directory, new_filename)
+    df.to_csv(path)
+
+
+toc = time.perf_counter()
+time_elapsed = toc - tic
+print("Time Elapsed:", time_elapsed // 60, "Minutes", time_elapsed % 60, "Seconds")
+
 print()
 print("Mainbands:", len(df[df["Band_type"] == 0]))
 print("Lone Mainbands:", len(df[df["Band_type"] == 2]))
 print("Lone Mainband Fraction of Tracks:", len(df[df["Band_type"] == 2]) / len(df))
 print("Lower Bands:", len(df[df["Band_type"] == -1]))
 print("Upper Bands:", len(df[df["Band_type"] == 1]))
+if assemble_mainbands is True:
+    print("Phantom Bands:", len(df[df["Band_type"] == 3]))
