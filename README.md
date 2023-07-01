@@ -16,6 +16,7 @@ To use the code, Sideband_Classification requires a path to the clustered data, 
 3. Input axial frequency minimums for each field (MHz, separated by spaces)
 4. Input axial frequency maximums for each field (MHz, separated by spaces)
 5. Input a number of points to check for each track
+6. Input on if to assemble phantom mainbands
 
 Note: Increasing the number of points to check will increase accuracy, but also runtime.
 
@@ -30,10 +31,14 @@ Minimum Axial Frequencies in MHz (integers seperated by spaces): "51 80 93 99 10
 
 Maximum Axial Frequencies in MHz (integers seperated by spaces): "67 98 117 122 125 128 129 129 131 131 131"
 
-Number of points per track to check: "5"
+Number of points per track to check: "10"
+
+Asemble phantom mainbands from pairs of sidebands that lack a mainband? (y/n): y
 ##
 
 The code will then store a file in the same location as the input with the addition of the suffix "_with_sidebands" appended, which represents the experimental data with further columns describing the band type (Top band, bottom band, mainband, lone band), the beta the band belongs to, and the axial frequency of the band.
+
+If "y" was input for assembling phantom mainbands, the code will also save another file in the same location as the input with the addition of the suffic "_with_phantoms", representing the data with classified sidebands, calculated axial frequencies, and mainbands assembled from pairs of sidebands that lack a mainband.
 
 
 
