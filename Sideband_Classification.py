@@ -344,34 +344,31 @@ for k, field in by_field:
 
 if assemble_mainbands is False:
     df.drop("Phantom_mainband")
+    suffix = "_with_sidebands"
 
-suffix = "_with_sidebands"
-directory = os.path.dirname(filepath)
-filename, extension = os.path.splitext(os.path.basename(filepath))
-new_filename = f"{filename}{suffix}{extension}"
-path = os.path.join(directory, new_filename)
-df.to_csv(path)
-
-if assemble_mainbands is True:
+else:
+    print("Assembling phantom bands")
     phantom_df = pd.DataFrame(columns=df.columns)
     gdf = df[df["Phantom_mainband"] == True]
     gdf = gdf.groupby("Beta")
-    print(len(gdf))
+    phantom_number = len(gdf)
+    count = 0
     for beta_group_name, beta_group_data in gdf:
-        # print("Yes")
+        count += 1
+        print(100 * count / phantom_number, "percent done")
         phantom_mainband = create_mainband(beta_group_data)
-        # print(phantom_mainband)
         phantom_df = pd.concat([phantom_df, pd.DataFrame(phantom_mainband).transpose()], ignore_index=True)
         continue
 
     df = pd.concat([df, phantom_df], ignore_index=True)
 
-    suffix = "_with_phantoms"
-    directory = os.path.dirname(filepath)
-    filename, extension = os.path.splitext(os.path.basename(filepath))
-    new_filename = f"{filename}{suffix}{extension}"
-    path = os.path.join(directory, new_filename)
-    df.to_csv(path)
+    suffix = "with_phantoms"
+
+directory = os.path.dirname(filepath)
+filename, extension = os.path.splitext(os.path.basename(filepath))
+new_filename = f"{filename}{suffix}{extension}"
+path = os.path.join(directory, new_filename)
+df.to_csv(path)
 
 
 toc = time.perf_counter()
