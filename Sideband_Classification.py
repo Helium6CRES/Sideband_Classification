@@ -250,20 +250,28 @@ for k, field in by_field:
                     elif is_between(curr_event_start, curr_event_end, far_below, slope):
                         if other_event["Band_type"] == 2:
                             df.at[i, "Beta"] = beta
+                        else:
+                            df.at[index, "Beta"] == other_event["Beta"]
                         axial_freq = side_axial_frequency(event, other_event)
                         df.at[i, "Band_type"] = -1
                         df.at[i, "Axial_Frequency"] = axial_freq
+                        df.at[i, "Phantom_mainband"] = True
                         df.at[index, "Axial_Frequency"] = axial_freq
                         df.at[index, "Band_type"] = 1
+                        df.at[index, "Phantom_mainband"] = True
                         continue
 
                     # Far above band check
                     elif is_between(curr_event_start, curr_event_end, far_above, slope):
                         if other_event["Band_type"] == 2:
                             df.at[i, "Beta"] = beta
+                        else:
+                            df.at[index, "Beta"] == other_event["Beta"]
                         axial_freq = side_axial_frequency(event, other_event)
                         df.at[i, "Band_type"] = 1
                         df.at[index, "Band_type"] = -1
+                        df.at[i, "Phantom_mainband"] = True
+                        df.at[index, "Phantom_mainband"] = True
                         df.at[i, "Axial_Frequency"] = axial_freq
                         df.at[index, "Axial_Frequency"] = axial_freq
                         continue
