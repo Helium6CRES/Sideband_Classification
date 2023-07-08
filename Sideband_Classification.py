@@ -255,10 +255,8 @@ for k, field in by_field:
                         axial_freq = side_axial_frequency(event, other_event)
                         df.at[i, "Band_type"] = -1
                         df.at[i, "Axial_Frequency"] = axial_freq
-                        df.at[i, "Phantom_mainband"] = True
                         df.at[index, "Axial_Frequency"] = axial_freq
                         df.at[index, "Band_type"] = 1
-                        df.at[index, "Phantom_mainband"] = True
                         continue
 
                     # Far above band check
@@ -270,8 +268,6 @@ for k, field in by_field:
                         axial_freq = side_axial_frequency(event, other_event)
                         df.at[i, "Band_type"] = 1
                         df.at[index, "Band_type"] = -1
-                        df.at[i, "Phantom_mainband"] = True
-                        df.at[index, "Phantom_mainband"] = True
                         df.at[i, "Axial_Frequency"] = axial_freq
                         df.at[index, "Axial_Frequency"] = axial_freq
                         continue
