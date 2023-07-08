@@ -3,7 +3,7 @@
 
 This code is intended to be used for the He-6 CRES experiment on experiment data that has already undergone clustering into individual tracks.
 
-The Sideband_Classification file will take this data and append onto it columns that classify each track status as a mainband or sideband, numbers each set of bands as a unique beta, and the calculated axial frequency of the set of bands, if not alone.
+The Sideband_Classification file will take this data and append onto it columns that classify each track status as a mainband or sideband, numbers each set of bands as a unique beta, and the calculated axial frequency of the set of bands, if not alone. Optionally it will also add phantom bands to this file, representing where mainbands would be based on pairs of lone sidebands.
 
 The Axial_Hist_Plot file takes the output CSV from Sideband_Classification and creates a histogram of the axial frequencies for each field, neglecting all zeroes.
 
@@ -38,7 +38,7 @@ Asemble phantom mainbands from pairs of sidebands that lack a mainband? (y/n): y
 
 The code will then store a file in the same location as the input with the addition of the suffix "_with_sidebands" appended, which represents the experimental data with further columns describing the band type (Top band, bottom band, mainband, lone band), the beta the band belongs to, and the axial frequency of the band.
 
-If "y" was input for assembling phantom mainbands, the code will also save another file in the same location as the input with the addition of the suffic "_with_phantoms", representing the data with classified sidebands, calculated axial frequencies, and mainbands assembled from pairs of sidebands that lack a mainband.
+If "y" was input for assembling phantom mainbands, the code will instead save another file in the same location as the input with the addition of the suffix "_with_phantoms", representing the data with classified sidebands, calculated axial frequencies, and mainbands assembled from pairs of sidebands that lack a mainband.
 
 
 
