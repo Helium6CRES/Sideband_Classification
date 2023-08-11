@@ -159,7 +159,7 @@ def main_axial_frequency(mainband, above_band, below_band):
     return abs(axial_frequency)
 
 
-def side_axial_frequency(above_band, below_band):
+def side_axial_frequency(above_band, below_band, point):
     """
     This function takes 2 inputs, above_band and below_band, each
     corresponding to rows of the larger dataframe, specifically 2
@@ -169,8 +169,7 @@ def side_axial_frequency(above_band, below_band):
     axial frequency of the pair.
     """
     numbers = [above_band["EventStartTime"], above_band["EventEndTime"], below_band["EventStartTime"], below_band["EventEndTime"]]
-    ordered = sorted(numbers)
-    x = ordered[1]
+    x = point[0]
     freq_top = above_band["EventSlope"] * (x - above_band["EventStartTime"]) + above_band["EventStartFreq"]
     freq_bottom = below_band["EventSlope"] * (x - below_band["EventStartTime"]) + below_band["EventStartFreq"]
     axial_frequency = (freq_top - freq_bottom) / 2
@@ -291,7 +290,7 @@ for k, field in by_field:
                             df.at[i, "Beta"] = beta
                         else:
                             df.at[index, "Beta"] == other_event["Beta"]
-                        axial_freq = side_axial_frequency(event, other_event)
+                        axial_freq = side_axial_frequency(event, other_event, point)
                         df.at[i, "Band_type"] = -1
                         df.at[i, "Axial_Frequency"] = axial_freq
                         df.at[i, "Phantom_mainband"] = True
@@ -306,7 +305,7 @@ for k, field in by_field:
                             df.at[i, "Beta"] = beta
                         else:
                             df.at[index, "Beta"] == other_event["Beta"]
-                        axial_freq = side_axial_frequency(event, other_event)
+                        axial_freq = side_axial_frequency(event, other_event, point)
                         df.at[i, "Band_type"] = 1
                         df.at[index, "Band_type"] = -1
                         df.at[i, "Phantom_mainband"] = True
